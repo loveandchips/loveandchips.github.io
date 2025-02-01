@@ -12,7 +12,7 @@ const tutoBtn = document.getElementById("tutoBtn")
 let isHidden = false;
 let currentAudio = null;
 let currentIndex = 0;
-const totalImages = 8; // Ajustez ce nombre selon le nombre total d'images
+const totalImages = 9; // Ajustez ce nombre selon le nombre total d'images
 let isMuted = false;
 let isTransitioning = false;
 let options = { passive: true };
@@ -276,7 +276,7 @@ document.body.appendChild(tutorialOverlay);
 const tutorialSteps = [
     {
         title: "Bienvenue sur la Galerie",
-        text: "Cette galerie est un hommage à Chips2Combat. Chaque personne a écrit un petit message destiné à Chips et a choisi une musique pour l'accompagner",
+        text: "Cette galerie a été érigée en l'honneur de Chips2Combat. Chaque personne a écrit un petit message destiné à Chips et a choisi une musique pour l'accompagner",
         highlight: null
     },
     {
