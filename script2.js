@@ -22,15 +22,15 @@ let options = { passive: true };
 // x et y sont en pourcentage de la largeur/hauteur de l'écran
 // rotation est en degrés
 const imagePositions = [
-    [2, 2, -8, 25],     // Image 1 : En haut à gauche, 70% de taille
-    [2, 55, -5, 30],     // Image 2 : En haut au milieu, 85% de taille
-    [66, 2, 5, 27],   // Image 3 : En haut à droite, 60% de taille
-    [30, 3, 0, 27],    // Image 4 : Au milieu à gauche, 75% de taille
-    [20, 65, -5, 25],    // Image 5 : Au centre, 90% de taille
-    [70, 55, 8, 30],     // Image 6 : Au milieu à droite, 65% de taille
-    [65, 75, 6, 35],   // Image 7 : En bas à gauche, 80% de taille
-    [45, 50, -2, 20],     // Image 8 : En bas au milieu, 70% de taille
-    [75, 70, -7, 20],    // Image 9 : En bas à droite, 75% de taille
+    [2, 2, -8, 20],     // Vic
+    [70, 6, 5, 30],     // Flop
+    [45, 2, 5, 22],   // Apok
+    [23, 3, 0, 22],    // Amo
+    [2, 45, -5, 25],    // F&Y
+    [70, 30, 8, 30],     // Freezer
+    [45, 45 , 6, 30],   // Vezir
+    [26, 42, -2, 20],     // Cass
+    [70, 50, 5, 30 ],    // Clem
     [75, 35, 9, 20],     // Image 10 : Position supplémentaire, 85% de taille
 ];
 
