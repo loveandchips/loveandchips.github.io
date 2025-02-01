@@ -15,6 +15,7 @@ let currentIndex = 0;
 const totalImages = 8; // Ajustez ce nombre selon le nombre total d'images
 let isMuted = false;
 let isTransitioning = false;
+let options = { passive: true };
 
 // Positions prédéfinies pour chaque image
 // Le format est : [x, y, rotation]
@@ -153,17 +154,37 @@ function updateModalImage() {
         }, 50);
     }, 300);
 }
-
 async function playAudio(index) {
-    const newAudio = new Audio(`audio/audio${index + 1}.mp3`);
-    const targetVolume = volumeSlider.value;
-    
-    if (currentAudio) {
-        await fadeAudioOut(currentAudio);
+    try {
+        const newAudio = new Audio(`audio/audio${index + 1}.mp3`);
+        const targetVolume = volumeSlider.value;
+        
+        // Attendre que l'audio soit chargé
+        await newAudio.load();
+        
+        if (currentAudio) {
+            await fadeAudioOut(currentAudio);
+            currentAudio.pause();
+            currentAudio = null;
+        }
+        
+        currentAudio = newAudio;
+        
+        // Sur mobile, on joue l'audio seulement après une interaction utilisateur
+        if (window.innerWidth <= 768) {
+            newAudio.volume = targetVolume;
+            const playPromise = newAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Erreur de lecture audio:", error);
+                });
+            }
+        } else {
+            fadeAudioIn(newAudio, targetVolume);
+        }
+    } catch (error) {
+        console.log("Erreur lors de la lecture audio:", error);
     }
-    
-    currentAudio = newAudio;
-    fadeAudioIn(newAudio, targetVolume);
 }
 
 async function navigateGallery(direction) {
@@ -180,9 +201,12 @@ async function navigateGallery(direction) {
 }
 
 // Event Listeners
-closeBtn.addEventListener('click', closeModal);
-prevBtn.addEventListener('click', () => navigateGallery(-1));
-nextBtn.addEventListener('click', () => navigateGallery(1));
+closeBtn.addEventListener('click', closeModal, options);
+closeBtn.addEventListener('touchend', closeModal, options);
+prevBtn.addEventListener('click', () => navigateGallery(-1), options);
+prevBtn.addEventListener('touchend', () => navigateGallery(-1), options);
+nextBtn.addEventListener('click', () => navigateGallery(1), options);
+nextBtn.addEventListener('touchend', () => navigateGallery(1), options);
 
 document.addEventListener('keydown', (e) => {
     if (modal.classList.contains('active')) {
@@ -197,10 +221,17 @@ volumeBtn.addEventListener('click', () => {
     volumeBtn.textContent = isMuted ? '🔇' : '🔊';
     volumeSlider.value = isMuted ? 0 : 1;
     if (currentAudio) {
-        currentAudio.volume = isMuted ? 0 : volumeSlider.value;
+        try {
+            currentAudio.volume = isMuted ? 0 : volumeSlider.value;
+        } catch (error) {
+            console.log("Erreur de contrôle du volume:", error);
+        }
     }
-});
+}, { passive: true });
 
+volumeBtn.addEventListener('touchend', () => {
+    // Même code que ci-dessus
+}, { passive: true });
 volumeSlider.addEventListener('input', (e) => {
     const volume = e.target.value;
     if (currentAudio) {
